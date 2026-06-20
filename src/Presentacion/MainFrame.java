@@ -15,10 +15,10 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
-        initComponents();
-        
-        
+   public MainFrame() {
+    initComponents();
+    
+    
    EstudiantePanel estudiantePanel = new EstudiantePanel();
 
     jPanel1.setLayout(new java.awt.BorderLayout());
@@ -27,12 +27,24 @@ public class MainFrame extends javax.swing.JFrame {
 
     jPanel1.revalidate();
     jPanel1.repaint();
+
+
+    // ---- Integración del módulo de Cursos ----
+    Repositorio.CursoRepositorio cursoRepositorio = new Repositorio.CursoRepositorio();
+    Negocio.CursoNegocio cursoNegocio = new Negocio.CursoNegocio(cursoRepositorio);
+    CursoPanel cursoPanel = new CursoPanel(cursoNegocio);
+
+    jPanel2.setLayout(new java.awt.BorderLayout());
+    jPanel2.removeAll();
+    jPanel2.add(cursoPanel, java.awt.BorderLayout.CENTER);
+
+    jPanel2.revalidate();
+    jPanel2.repaint();
     
     
     jMenuItem5.addActionListener(e -> System.exit(0));
     jButton22.addActionListener(e -> System.exit(0));
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
