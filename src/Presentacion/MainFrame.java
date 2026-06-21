@@ -2,12 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentacion;
+package Presentacion;                                                                                                                
 
-/**
- *
- * @author Charly Cimino
- */
+
+
 public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
@@ -15,22 +13,67 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    
     public MainFrame() {
-        initComponents();
-        
-        
-   EstudiantePanel estudiantePanel = new EstudiantePanel();
+    initComponents();
 
-    jPanel1.setLayout(new java.awt.BorderLayout());
-    jPanel1.removeAll();
-    jPanel1.add(estudiantePanel, java.awt.BorderLayout.CENTER);
+    EstudiantePanel estudiantePanel = new EstudiantePanel();
 
-    jPanel1.revalidate();
-    jPanel1.repaint();
-    
-    
-    jMenuItem5.addActionListener(e -> System.exit(0));
-    jButton22.addActionListener(e -> System.exit(0));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.removeAll();
+        jPanel1.add(estudiantePanel, java.awt.BorderLayout.CENTER);
+        jPanel1.revalidate();
+        jPanel1.repaint();
+
+        Repositorio.CursoRepositorio cursoRepositorio = new Repositorio.CursoRepositorio();
+        Negocio.CursoNegocio cursoNegocio = new Negocio.CursoNegocio(cursoRepositorio);
+
+        Repositorio.MatriculaRepositorio matriculaRepositorio = new Repositorio.MatriculaRepositorio();
+        Negocio.MatriculaNegocio matriculaNegocio = new Negocio.MatriculaNegocio(matriculaRepositorio);
+
+        CursoPanel cursoPanel = new CursoPanel(cursoNegocio);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.removeAll();
+        jPanel2.add(cursoPanel, java.awt.BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
+
+        MatriculaPanel matriculaPanel =
+                new MatriculaPanel(estudiantePanel.getNegocio(), cursoNegocio, matriculaNegocio);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel3.removeAll();
+        jPanel3.add(matriculaPanel, java.awt.BorderLayout.CENTER);
+        jPanel3.revalidate();
+        jPanel3.repaint();
+
+        CalificacionPanel calificacionPanel = new CalificacionPanel(estudiantePanel.getNegocio(), cursoNegocio);
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+        jPanel4.removeAll();
+        jPanel4.add(calificacionPanel, java.awt.BorderLayout.CENTER);
+        jPanel4.revalidate();
+        jPanel4.repaint();
+
+        jTabbedPane1.addChangeListener(e -> {
+            if (jTabbedPane1.getSelectedComponent() == jPanel3) {
+                matriculaPanel.refrescarListas();
+            } else if (jTabbedPane1.getSelectedComponent() == jPanel4) {
+                calificacionPanel.actualizarCombos(); // Recarga los combos dinámicamente con datos reales
+            }
+        });
+        
+        ReportePanel reportePanel = new ReportePanel();
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel5.removeAll();
+        jPanel5.add(reportePanel, java.awt.BorderLayout.CENTER);
+        jPanel5.revalidate();
+        jPanel5.repaint();
+
+        jMenuItem5.addActionListener(e -> System.exit(0));
+        jButton22.addActionListener(e -> System.exit(0));
     }
 
     /**
@@ -60,7 +103,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        PanelContenido = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -214,20 +257,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Calificaciones", jPanel4);
 
-        PanelContenido.setName("PanelContenido"); // NOI18N
+        jPanel5.setName("jPanel5"); // NOI18N
 
-        javax.swing.GroupLayout PanelContenidoLayout = new javax.swing.GroupLayout(PanelContenido);
-        PanelContenido.setLayout(PanelContenidoLayout);
-        PanelContenidoLayout.setHorizontalGroup(
-            PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 664, Short.MAX_VALUE)
         );
-        PanelContenidoLayout.setVerticalGroup(
-            PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 345, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Reportes", PanelContenido);
+        jTabbedPane1.addTab("Reportes", jPanel5);
 
         jMenu1.setText("Archivo");
 
@@ -334,7 +377,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelContenido;
     private javax.swing.JPanel PanelEstudiante;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
@@ -370,6 +412,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
