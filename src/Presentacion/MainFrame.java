@@ -41,6 +41,24 @@ public class MainFrame extends javax.swing.JFrame {
     jPanel2.revalidate();
     jPanel2.repaint();
     
+    // ---- Integración del módulo de Matrícula ----
+    Repositorio.MatriculaRepositorio matriculaRepositorio = new Repositorio.MatriculaRepositorio();
+    Negocio.MatriculaNegocio matriculaNegocio = new Negocio.MatriculaNegocio(matriculaRepositorio);
+    MatriculaPanel matriculaPanel = new MatriculaPanel(estudiantePanel.getNegocio(), cursoNegocio, matriculaNegocio);
+
+    jPanel3.setLayout(new java.awt.BorderLayout());
+    jPanel3.removeAll();
+    jPanel3.add(matriculaPanel, java.awt.BorderLayout.CENTER);
+
+    jPanel3.revalidate();
+    jPanel3.repaint();
+
+    jTabbedPane1.addChangeListener(e -> {
+        if (jTabbedPane1.getSelectedComponent() == jPanel3) {
+            matriculaPanel.refrescarListas();
+        }
+    });
+    
     
     jMenuItem5.addActionListener(e -> System.exit(0));
     jButton22.addActionListener(e -> System.exit(0));
